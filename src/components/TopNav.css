@@ -1,0 +1,9 @@
+.brand-ai {
+  font-size: 0.72em;
+  letter-spacing: -0.3px;
+  color: #6c8868;
+  margin-left: 1px;
+}
+.dark-mode .brand-ai {
+  color: #a7c39c;
+}
