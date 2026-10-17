@@ -1,116 +1,122 @@
+import { useEffect, useState } from "react";
 import type { Word } from "../types";
+import { normalizeAnswer } from "../utils/normalizeAnswer";
+
+type AnswerStatus = "empty" | "correct" | "incorrect";
+
+type StudyRowProps = {
+  word: Word;
+};
+
+function StudyRow({ word }: StudyRowProps) {
+  const [answer, setAnswer] = useState("");
+  const [status, setStatus] = useState<AnswerStatus>("empty");
+  useEffect(() => {
+    const normalizedAnswer = normalizeAnswer(answer);
+    if (!normalizedAnswer) {
+      setStatus("empty");
+      return;
+    }
+    setStatus(normalizedAnswer === normalizeAnswer(word.translation) ? "correct" : "incorrect");
+  }, [answer, word.translation]);
+
+  return (
+    <tr>
+      <th className="study-table-word-cell" scope="row">
+        <strong>{word.text}</strong>
+      </th>
+      <td>
+        <div className={`study-table-answer ${status}`}>
+          <input
+            aria-label={`Traduce ${word.text} al español`}
+            autoComplete="off"
+            value={answer}
+            onChange={(event) => setAnswer(event.target.value)}
+            placeholder="Escribe la traducción..."
+          />
+          <span
+            className="study-table-answer-status"
+            aria-live="polite"
+            aria-label={
+              status === "correct"
+                ? "Respuesta correcta"
+                : status === "incorrect"
+                  ? "Respuesta incorrecta"
+                : undefined
+            }
+          >
+            {status === "correct"
+              ? "✓"
+              : status === "incorrect"
+                ? "×"
+                : ""}
+          </span>
+        </div>
+      </td>
+    </tr>
+  );
+}
 
 type Props = {
   words: Word[];
-  activeWord: number;
-  draft: string;
-  notice: string;
-  busy: boolean;
-  endpoint: string;
-  onDraftChange: (value: string) => void;
-  onEndpointChange: (value: string) => void;
-  onTranslate: () => void;
-  onSave: () => void;
-  onNext: () => void;
-  onRead: () => void;
+  onGoToWords: () => void;
 };
 
-export function StudyPage(props: Props) {
-  const word = props.words[props.activeWord];
-  const dueCount = props.words.filter(
-    (item) => !item.translation.trim(),
-  ).length;
+export function StudyPage({
+  words,
+  onGoToWords,
+}: Props) {
+  const [resetKey, setResetKey] = useState(0);
 
   return (
     <section className="page-content study-page">
-      <div className="page-heading"></div>
-      {props.words.length ? (
-        <div className="study-layout">
-          <div className="study-card">
-            <div className="study-word">{word?.text}</div>
-            {word?.context && (
-              <div className="study-context">“{word.context}”</div>
-            )}
-            <button
-              className="ai-translate"
-              onClick={props.onTranslate}
-              disabled={props.busy}
-            >
-              {props.busy
-                ? "Consultando Hy-MT2…"
-                : "✦ Sugerir traducción con Hy-MT2"}
-            </button>
-            <label className="answer-label" htmlFor="translation-input">
-              TU TRADUCCIÓN EN ESPAÑOL
-            </label>
-            <div className="answer-field">
-              <input
-                id="translation-input"
-                value={props.draft}
-                onChange={(event) => props.onDraftChange(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") props.onSave();
-                }}
-                placeholder="Escribe aquí lo que significa..."
-              />
-              <span>↵</span>
-            </div>
-            <div className="study-actions">
-              <button className="skip-button" onClick={props.onNext}>
-                Dejar para después
-              </button>
-              <button className="save-answer" onClick={props.onSave}>
-                Guardar traducción <span>→</span>
-              </button>
-            </div>
-            {props.notice && (
-              <p className="study-notice" role="status">
-                {props.notice}
-              </p>
-            )}
-            <p className="ai-note">
-              La sugerencia se genera en tu equipo y tú decides si guardarla.
-            </p>
-          </div>
-          <aside className="study-side">
-            <h3>Tu ritmo, tus reglas.</h3>
-            <p>
-              Las palabras sin traducción aparecen primero. También puedes
-              completar su significado más tarde.
-            </p>
-            <label className="endpoint-label" htmlFor="ai-endpoint">
-              SERVIDOR LOCAL COMPATIBLE
-            </label>
-            <input
-              className="endpoint-input"
-              id="ai-endpoint"
-              value={props.endpoint}
-              onChange={(event) => props.onEndpointChange(event.target.value)}
-              placeholder="http://127.0.0.1:1234"
-            />
-            <p className="endpoint-hint">
-              Cambia aquí la dirección o el puerto del servidor local de Hy-MT2.
-            </p>
-            <div className="study-stat">
-              <span>Por traducir</span>
-              <strong>{dueCount}</strong>
-            </div>
-            <div className="study-stat">
-              <span>Completadas</span>
-              <strong>{props.words.length - dueCount}</strong>
-            </div>
-          </aside>
+      <div className="page-heading">
+        <div>
+          <h1>
+            Vamos a <em>estudiar.</em>
+          </h1>
+          <p className="page-subtitle">
+            Escribe en español el significado de cada palabra en inglés.
+          </p>
+        </div>
+        {!!words.length && (
+          <button
+            className="subtle-button"
+            onClick={() => setResetKey((current) => current + 1)}
+          >
+            Limpiar respuestas
+          </button>
+        )}
+      </div>
+      {words.length ? (
+        <div className="study-table-container">
+          <table className="study-table">
+            <thead>
+              <tr>
+                <th scope="col">Palabra en inglés</th>
+                <th scope="col">Tu traducción en español</th>
+              </tr>
+            </thead>
+            <tbody>
+              {words.map((word) => (
+                <StudyRow
+                  key={`${word.id}-${resetKey}`}
+                  word={word}
+                />
+              ))}
+            </tbody>
+          </table>
         </div>
       ) : (
         <div className="empty-state">
           <span>✳</span>
-          <h3>Tu próxima sesión empieza leyendo</h3>
+          <h3>Aún no hay palabras para estudiar</h3>
           <p>
-            Guarda algunas palabras en la sección Leer y vuelve aquí para
-            estudiarlas.
+            Escribe y guarda las traducciones en Mis palabras. Las palabras
+            traducidas aparecerán aquí para repasarlas.
           </p>
-          <button onClick={props.onRead}>
-            Ir a leer <span>↗</span>
+          <button onClick={onGoToWords}>
+            Ir a Mis palabras <span>↗</span>
           </button>
         </div>
       )}

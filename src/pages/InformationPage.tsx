@@ -3,7 +3,12 @@ import { useState } from "react";
 const command =
   "llama serve -hf tencent/Hy-MT2-1.8B-GGUF:Q4_K_M --host 127.0.0.1 --port 1234";
 
-export function InformationPage() {
+type Props = {
+  endpoint: string;
+  onEndpointChange: (value: string) => void;
+};
+
+export function InformationPage({ endpoint, onEndpointChange }: Props) {
   const [copied, setCopied] = useState(false);
 
   const copyCommand = async () => {
@@ -57,6 +62,15 @@ export function InformationPage() {
               El servidor quedará disponible en <strong>http://127.0.0.1:1234</strong>.
               Mantén esta terminal abierta mientras uses la aplicación.
             </span>
+          </div>
+          <div className="terminal-endpoint-setting">
+            <label htmlFor="ai-endpoint">DIRECCIÓN DEL SERVIDOR LOCAL</label>
+            <input
+              id="ai-endpoint"
+              value={endpoint}
+              onChange={(event) => onEndpointChange(event.target.value)}
+              placeholder="http://127.0.0.1:1234"
+            />
           </div>
         </div>
 

@@ -17,6 +17,7 @@ import {
 import "./App.css";
 import "./PdfLibrary.css";
 import "./Readability.css";
+import "./PurpleTheme.css";
 
 const initialText = ``;
 
@@ -28,11 +29,8 @@ function App() {
   const [translatedSelection, setTranslatedSelection] = useState("");
   const [notice, setNotice] = useState("");
   const [fileName, setFileName] = useState("");
-  const [activeWord, setActiveWord] = useState(0);
-  const [draft, setDraft] = useState("");
   const [darkMode, setDarkMode] = useState(readDarkMode);
   const [aiEndpoint, setAiEndpoint] = useState(readAiBaseUrl);
-  const [aiBusy, setAiBusy] = useState(false);
   const [translatingSelection, setTranslatingSelection] = useState(false);
   const [autoTranslateEnabled, setAutoTranslateEnabled] = useState(true);
   const selectionTranslationRequest = useRef(0);
@@ -46,14 +44,15 @@ function App() {
       .catch(() => setNotice("No se pudo cargar la biblioteca de PDF."));
   }, []);
 
-  const dueWords = useMemo(
-    () => words.filter((word) => !word.translation.trim()),
+  const studyWords = useMemo(
+    () => words.filter((word) => word.translation.trim()),
     [words],
   );
   const saveWordList = (next: Word[]) => {
     setWords(next);
     writeWords(next);
   };
+
   const getSelectionDetails = (selection = selected) => {
     const value = selection
       .trim()
@@ -186,46 +185,8 @@ function App() {
     }
   };
 
-  const requestTranslation = async () => {
-    const word = words[activeWord];
-    if (!word) return;
-    setAiBusy(true);
-    setNotice("Consultando Hy-MT2 en tu equipo…");
-    try {
-      setDraft(
-        await translateWithLocalModel(aiEndpoint, word.text, word.context),
-      );
-      setNotice(
-        "Traducción sugerida por Hy-MT2. Revísala y guárdala cuando quieras.",
-      );
-    } catch (error) {
-      setNotice(
-        error instanceof Error
-          ? error.message
-          : "No se pudo conectar con el modelo local.",
-      );
-    } finally {
-      setAiBusy(false);
-    }
-  };
-
-  const saveStudyTranslation = () => {
-    const word = words[activeWord];
-    if (!word) return;
-    saveWordList(
-      words.map((item) =>
-        item.id === word.id ? { ...item, translation: draft.trim() } : item,
-      ),
-    );
-    setNotice("Traducción guardada.");
-  };
-
   const navigate = (nextSection: Section) => {
     setSection(nextSection);
-    if (nextSection === "study") {
-      setActiveWord(0);
-      setDraft(words[0]?.translation ?? "");
-    }
   };
 
   const startNewText = () => {
@@ -242,7 +203,7 @@ function App() {
         <TopNav
           section={section}
           wordCount={words.length}
-          dueCount={dueWords.length}
+          dueCount={studyWords.length}
           darkMode={darkMode}
           onNavigate={navigate}
           onToggleTheme={() => {
@@ -295,32 +256,26 @@ function App() {
               saveWordList(words.filter((word) => word.id !== id))
             }
             onRead={() => navigate("read")}
+            onTranslationChange={(id, translation) =>
+              saveWordList(words.map((word) => word.id === id ? { ...word, translation } : word))
+            }
           />
         )}
         {section === "study" && (
           <StudyPage
-            words={words}
-            activeWord={activeWord}
-            draft={draft}
-            notice={notice}
-            busy={aiBusy}
+            words={studyWords}
+            onGoToWords={() => navigate("words")}
+          />
+        )}
+        {section === "information" && (
+          <InformationPage
             endpoint={aiEndpoint}
-            onDraftChange={setDraft}
             onEndpointChange={(value) => {
               setAiEndpoint(value);
               writeAiBaseUrl(value);
             }}
-            onTranslate={() => void requestTranslation()}
-            onSave={saveStudyTranslation}
-            onNext={() => {
-              const next = (activeWord + 1) % words.length;
-              setActiveWord(next);
-              setDraft(words[next]?.translation ?? "");
-            }}
-            onRead={() => navigate("read")}
           />
         )}
-        {section === "information" && <InformationPage />}
       </main>
     </div>
   );

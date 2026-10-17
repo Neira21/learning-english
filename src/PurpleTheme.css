@@ -1,0 +1,155 @@
+/* Dark plum palette for the whole desktop app. */
+.dark-mode {
+  --plum-bg: #15121b;
+  --plum-surface: #1e1927;
+  --plum-raised: #282132;
+  --plum-border: #3b3048;
+  --plum-text: #ded4e9;
+  --plum-muted: #a99bb8;
+  --plum-accent: #ad91cd;
+  --plum-accent-soft: #392c49;
+  background: var(--plum-bg);
+  color: var(--plum-text);
+}
+
+.dark-mode .app-shell,
+.dark-mode .main-area { background: var(--plum-bg); }
+.dark-mode .topbar { background: #1a1622; border-color: var(--plum-border); }
+.dark-mode .brand { color: #eee6f5; }
+.dark-mode .brand-mark { background: #70558d; color: #fff; }
+.dark-mode .brand-dot,
+.dark-mode .main-nav-item span { color: var(--plum-accent); }
+.dark-mode .main-nav-item { color: var(--plum-muted); }
+.dark-mode .main-nav-item:hover,
+.dark-mode .main-nav-item.active { background: var(--plum-accent-soft); color: #eadcf8; }
+.dark-mode .theme-toggle { background: var(--plum-raised); border-color: var(--plum-border); color: #d8c2f0; }
+.dark-mode .theme-toggle:hover { background: #443452; }
+.dark-mode .page-heading h1,
+.dark-mode .selection-card h3,
+.dark-mode .study-side h3 { color: #e5dced; }
+.dark-mode .page-heading h1 em,
+.dark-mode .eyebrow,
+.dark-mode .eyebrow-line { color: var(--plum-accent); }
+.dark-mode .eyebrow-line { background: var(--plum-accent); }
+.dark-mode .page-subtitle,
+.dark-mode .selection-card > p { color: var(--plum-muted); }
+.dark-mode .subtle-button { background: var(--plum-surface); border-color: var(--plum-border); color: #d3c4e2; }
+.dark-mode .subtle-button:hover { background: var(--plum-raised); }
+
+.dark-mode .reader-toolbar,
+.dark-mode .pdf-library,
+.dark-mode .study-table-container { background: var(--plum-surface); border-color: var(--plum-border); }
+.dark-mode .reader-tab { color: var(--plum-muted); }
+.dark-mode .reader-tab.selected { background: #40334e; color: #eadcf8; }
+.dark-mode .upload-button,
+.dark-mode .saved-pdfs-toggle { background: var(--plum-raised); border-color: var(--plum-border); color: #d2c2e2; }
+.dark-mode .saved-pdfs-toggle { background: transparent; }
+.dark-mode .upload-button:hover,
+.dark-mode .saved-pdfs-toggle:hover { color: #e6d4fa; border-color: #705b86; }
+.dark-mode .pdf-notice { background: #282132; border-color: var(--plum-border); color: #c2b2d2; }
+.dark-mode .pdf-notice strong { color: #eadcf8; }
+.dark-mode .reading-card,
+.dark-mode .selection-card,
+.dark-mode .collection-summary,
+.dark-mode .word-list,
+.dark-mode .empty-state,
+.dark-mode .study-card,
+.dark-mode .study-side { background: var(--plum-surface); border-color: var(--plum-border); }
+.dark-mode .reading-meta,
+.dark-mode .reading-footer,
+.dark-mode .summary-label,
+.dark-mode .empty-state p { color: var(--plum-muted); }
+.dark-mode .reading-tag,
+.dark-mode .reading-footer span:first-child { color: #c0a6dc; }
+.dark-mode .reading-text { color: #e1d8e9; }
+.dark-mode .reading-text::placeholder { color: #887c94; }
+.dark-mode .reading-footer { border-color: var(--plum-border); }
+.dark-mode .selection-empty,
+.dark-mode .selection-preview { background: #282132; border-color: #493a59; color: #b9a9c8; }
+.dark-mode .selection-icon,
+.dark-mode .selection-spark { background: var(--plum-accent-soft); color: #c1a5df; }
+.dark-mode .selection-preview > span,
+.dark-mode .answer-label { color: #bba7ce; }
+.dark-mode .selection-preview > strong,
+.dark-mode .translated-result strong { color: #e0c9f6; }
+.dark-mode .translated-result { background: #30243d; border-color: #59456d; }
+.dark-mode .translated-result > span { color: #c1a5df; }
+.dark-mode .selection-preview button,
+.dark-mode .save-answer { background: #70558d; color: #fff; }
+.dark-mode .selection-preview button:hover,
+.dark-mode .save-answer:hover { background: #81659f; }
+.dark-mode .selection-preview .save-word-button { background: #282132; border-color: #59456d; color: #d9c6ec; }
+.dark-mode .notice,
+.dark-mode .study-notice,
+.dark-mode .view-words { color: #c2a9df; }
+
+.dark-mode .collection-summary { border-color: var(--plum-border); }
+.dark-mode .summary-number { color: #d0b3ec; }
+.dark-mode .summary-divider { background: var(--plum-border); }
+.dark-mode .summary-action { background: var(--plum-accent-soft); color: #d8c1ee; }
+.dark-mode .word-row { border-color: #342b3e; }
+.dark-mode .word-letter { background: #392c49; color: #cfb3eb; }
+.dark-mode .word-main strong { color: #e0d6e9; }
+.dark-mode .word-translation { color: #cbb3e2; }
+.dark-mode .word-translation-input,
+.dark-mode .endpoint-input { background: #17131e; border-color: var(--plum-border); color: var(--plum-text); }
+.dark-mode .word-translation-input::placeholder,
+.dark-mode .endpoint-input::placeholder { color: #887c94; }
+.dark-mode .word-translation-input:focus,
+.dark-mode .endpoint-input:focus { border-color: #9575b5; }
+.dark-mode .icon-button { color: #aa9bb8; }
+.dark-mode .empty-state { border-color: #493a59; }
+.dark-mode .empty-state > span,
+.dark-mode .study-side-icon { color: #bd9cdd; }
+.dark-mode .empty-state h3 { color: #e0d6e9; }
+.dark-mode .empty-state button { background: var(--plum-raised); border-color: var(--plum-border); color: #d8c6e9; }
+
+.dark-mode .study-table thead th { background: #292232; border-color: var(--plum-border); color: #bba9cc; }
+.dark-mode .study-table tbody th,
+.dark-mode .study-table tbody td { border-color: #342b3e; }
+.dark-mode .study-table-word-cell strong { color: #e1d7eb; }
+.dark-mode .study-table-answer { background: #191520; border-color: var(--plum-border); }
+.dark-mode .study-table-answer input { color: #e0d6e9; }
+.dark-mode .study-table-answer input::placeholder { color: #887c94; }
+.dark-mode .study-table-answer:focus-within { border-color: #9272b2; }
+.dark-mode .study-table-answer.correct { background: #211a2b; border-color: #72558e; box-shadow: 0 0 0 2px #72558e22; }
+.dark-mode .study-table-answer.correct .study-table-answer-status { color: #c1a1df; }
+.dark-mode .study-table-answer.incorrect { border-color: #a95f70; }
+.dark-mode .study-table-answer.incorrect .study-table-answer-status { color: #dc8293; }
+
+.dark-mode .auto-translation-toggle { background: #30243d; border-color: #59456d; color: #d4c1e5; }
+.dark-mode .auto-translation-toggle:hover { background: #3a2c49; border-color: #70558d; }
+.dark-mode .auto-translation-toggle strong { color: #d6b9f1; }
+.dark-mode .auto-translation-toggle .auto-translation-indicator { background: #b491d4; box-shadow: 0 0 0 3px #b491d422; }
+.dark-mode .auto-translation-toggle.paused { background: #26212d; border-color: #49404f; color: #aca1b7; }
+.dark-mode .auto-translation-toggle.paused strong { color: #aca1b7; }
+.dark-mode .auto-translation-toggle.paused .auto-translation-indicator { background: #82798b; box-shadow: 0 0 0 3px #82798b22; }
+.dark-mode .ai-translate { background: #30243d; border-color: #59456d; color: #d4c1e5; }
+.dark-mode .ai-translate:hover { background: #3a2c49; }
+
+.dark-mode .terminal-window { background: #17131e; border-color: #493a59; color: #e0d6e9; }
+.dark-mode .terminal-titlebar,
+.dark-mode .terminal-statusbar { background: #211b2a; border-color: #493a59; }
+.dark-mode .terminal-label,
+.dark-mode .terminal-prompt,
+.dark-mode .terminal-output-mark { color: #c0a0df; }
+.dark-mode .terminal-title,
+.dark-mode .terminal-live,
+.dark-mode .terminal-output { color: #b5a8c2; }
+.dark-mode .terminal-command { background: #110e16; border-color: #493a59; }
+.dark-mode .terminal-command code { color: #e8dcf2; }
+.dark-mode .terminal-command button { background: #30243d; border-color: #59456d; color: #ddc9f1; }
+.dark-mode .terminal-output strong { color: #d3b9ec; }
+.dark-mode .terminal-endpoint-setting { border-color: #493a59; }
+.dark-mode .terminal-endpoint-setting label,
+.dark-mode .endpoint-label { color: #c0a0df; }
+.dark-mode .terminal-endpoint-setting input { background: #110e16; border-color: #493a59; color: #e8dcf2; }
+
+.dark-mode .pdf-library-heading { color: #e0d6e9; }
+.dark-mode .pdf-library-item { border-color: #342b3e; }
+.dark-mode .pdf-library-item:hover { background: #282132; }
+.dark-mode .pdf-library-item strong { color: #e0d6e9; }
+.dark-mode .pdf-library-item small,
+.dark-mode .pdf-library-empty { color: #aa9bb8; }
+.dark-mode .pdf-file-icon { background: #392c49; color: #d1b5ed; }
+.dark-mode .pdf-open-arrow { color: #c0a0df; }

@@ -2,7 +2,9 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 const { randomUUID } = require("node:crypto");
-const { translateWord } = require("./ai/translation-service.cjs");
+const {
+  translateWord,
+} = require("./ai/translation-service.cjs");
 
 const pdfDirectory = () => path.join(app.getPath("userData"), "pdfs");
 const pdfIndexPath = () => path.join(pdfDirectory(), "index.json");
