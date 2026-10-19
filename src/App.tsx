@@ -10,8 +10,10 @@ import type { SavedPdf, Section, Word } from "./types";
 import { extractPdfText } from "./utils/pdf";
 import {
   readDarkMode,
+  readReadingText,
   readWords,
   writeDarkMode,
+  writeReadingText,
   writeWords,
 } from "./utils/storage";
 import "./App.css";
@@ -19,12 +21,10 @@ import "./PdfLibrary.css";
 import "./Readability.css";
 import "./PurpleTheme.css";
 
-const initialText = ``;
-
 function App() {
   const [section, setSection] = useState<Section>("read");
   const [words, setWords] = useState<Word[]>(readWords);
-  const [text, setText] = useState(initialText);
+  const [text, setText] = useState(readReadingText);
   const [selected, setSelected] = useState("");
   const [translatedSelection, setTranslatedSelection] = useState("");
   const [notice, setNotice] = useState("");
@@ -36,6 +36,10 @@ function App() {
   const selectionTranslationRequest = useRef(0);
   const [savedPdfs, setSavedPdfs] = useState<SavedPdf[]>([]);
   const [showPdfLibrary, setShowPdfLibrary] = useState(false);
+
+  useEffect(() => {
+    writeReadingText(text);
+  }, [text]);
 
   useEffect(() => {
     void window.wordlearnIA
